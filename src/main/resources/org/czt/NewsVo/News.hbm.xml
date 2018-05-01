@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated 2018-4-25 13:57:39 by Hibernate Tools 5.1.4.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class catalog="News" name="org.czt.NewsVo.News"  table="news">
+        <id name="id" type="java.lang.Integer">
+            <column name="id"/>
+            <generator class="identity"/>
+        </id>
+        <property generated="never" lazy="false" name="title"   type="string" unique="false">
+            <column name="title"/>
+        </property>
+        <property generated="never" lazy="false" name="keywords"   type="string" unique="false">
+            <column name="keywords"/>
+        </property>
+        <property generated="never" lazy="false" name="author"   type="string" unique="false">
+            <column name="author"/>
+        </property>
+        <property generated="never" lazy="false" name="publishdate"   type="timestamp" unique="false">
+            <column length="19" name="publishdate"/>
+        </property>
+        <property generated="never" lazy="false" name="source"  type="string" unique="false">
+            <column name="source"/>
+        </property>
+        <property generated="never" lazy="false" name="criticism"   type="java.lang.Integer" unique="false">
+            <column name="criticism"/>
+        </property>
+        <many-to-one name="classify_id" lazy="false"  cascade="save-update" fetch="select" class="org.czt.ClassifyVo.Classify">
+        	<column name="classify_id"></column>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

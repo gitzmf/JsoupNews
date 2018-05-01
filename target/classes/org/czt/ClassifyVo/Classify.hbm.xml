@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated 2018-4-25 13:57:39 by Hibernate Tools 5.1.4.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class catalog="News"  name="org.czt.ClassifyVo.Classify" table="classify">
+        <id name="classify_id" type="java.lang.Integer">
+            <column name="classify_id"/>
+            <generator class="identity"/>
+        </id>
+        <property generated="never" lazy="false" name="classifyName"  type="string" unique="false">
+            <column name="classifyName" not-null="true"/>
+        </property>
+        <property generated="never" lazy="false" name="classifyUrl"  type="string" unique="false">
+            <column name="classifyUrl" not-null="true"/>
+        </property>
+        <set name="news" inverse="false" cascade="delete" lazy="false">
+        	<key column="id"></key>
+        	<one-to-many class="org.czt.NewsVo.News"/>
+        </set>
+    </class>
+</hibernate-mapping>

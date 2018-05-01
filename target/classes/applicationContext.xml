@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				xmlns:context="http://www.springframework.org/schema/context" 
+                xmlns:aop="http://www.springframework.org/schema/aop"
+                xmlns:tx="http://www.springframework.org/schema/tx" xsi:schemaLocation="
+                http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+				http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+                http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd"> <!-- bean definitions here -->
+ 		<!-- 外部资源配置引入，动态替换 -->
+ 		<!-- <context:property-placeholder location="classpath:名称.properties"/> -->
+ 		<!-- C3p0连接池配置 -->
+ 		<context:property-placeholder location="classpath:jdbc.properties"/>
+ 		<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+ 			 <!-- 指定连接源的基本属性 -->
+   			 <property name="user" value="${jdbc.user}"></property>
+  			 <property name="password" value="${jdbc.password}"></property>
+   			 <property name="driverClass" value="${jdbc.driver}"></property>
+   			 <property name="jdbcUrl" value="${jdbc.url}"></property>
+ 		</bean>
+ 		<!-- SessionFactory可以交给Spring创建 -->
+ 		<bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+ 			<!-- 因为我们没有在Hibenrtae 核心配置文件中，没有了数据库配置，数据库
+ 				配置在Spring里面，因此需要注入datasource -->
+ 			<property name="dataSource" ref="dataSource"></property>
+ 			<!-- 指定Hibernate的核心配置文件 -->
+ 			<property name="configLocations" value="classpath:hibernate.cfg.xml"></property>
+ 		</bean>		 
+ 		<!-- HibernateTemplate配置 -->
+ 		<bean id="hibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate">
+ 			<property name="sessionFactory" ref="sessionFactory"></property>
+ 		</bean>
+ 		<!-- 事务管理 -->
+ 		<bean id="transactionManager"  class="org.springframework.orm.hibernate5.HibernateTransactionManager" >
+ 			<property name="sessionFactory" ref="sessionFactory"></property>
+ 		</bean>
+ 		<tx:annotation-driven transaction-manager="transactionManager"/>		
+ 		<!--News 配置  -->
+ 		<!-- Dao层配置 -->
+ 		<bean id="newsDao" class="org.czt.NewsDao.NewsDaoImpl">
+ 			<property name="hibernateTemplate" ref="hibernateTemplate"/>
+ 		</bean>
+ 		<!-- Service层配置 -->
+ 		<bean id="newsService" class="org.czt.NewsService.NewsServiceImpl">
+ 			<property name="newsDao" ref="newsDao"/>
+ 		</bean>
+ 		<!-- Action层配置 -->
+ 		<bean id="newsAction" class="org.czt.NewsAction.NewsAction">
+ 			<property name="newsService" ref="newsService"/>
+ 			<property name="classifyService" ref="classifyService"/>
+ 		</bean>
+ 		<bean id="jfreeChartAction" class="org.czt.NewsAction.ChartAction">
+ 			<property name="newsService" ref="newsService"/>
+ 		</bean>
+ 		<!--News 配置结束  -->
+ 		<bean id="classifyDao" class="org.czt.ClassifyDao.ClassifyDaoImpl">
+ 			<property name="hibernateTemplate" ref="hibernateTemplate"/>
+ 		</bean>
+ 		<!-- Service层配置 -->
+ 		<bean id="classifyService" class="org.czt.ClassifyService.ClassifyServiceImpl">
+ 			<property name="classifyDao" ref="classifyDao"/>
+ 		</bean> 				
+</beans>

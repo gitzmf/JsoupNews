@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<!--开发模式  -->
+	<constant name="struts.devMode" value="false" />
+	<package name="newsAction" namespace="/" extends="struts-default,jfreechart-default">
+		<!-- 全局result -->
+		<global-results>
+			<result name="ex">/news/ex.jsp</result>
+		</global-results>
+		<!-- news_*.action的配置 -->
+		<action name="news_*" class="newsAction" method="{1}">
+			<result name="findAll">/news/list.jsp</result>
+			<result name="All">/news/all.jsp</result>
+		</action>
+		<!-- jfreechart_*.action配置 -->
+		<action name="jfreechart_*" class="jfreeChartAction" method="{1}">
+			<result name="success" type="chart">
+				<param name="width">500</param>
+				<param name="height">400</param>
+			</result>
+			<result name="chart">/news/chart.jsp</result>
+		</action>
+	</package>
+</struts>
