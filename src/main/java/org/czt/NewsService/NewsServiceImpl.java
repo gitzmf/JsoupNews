@@ -32,10 +32,10 @@ public class NewsServiceImpl implements INewsService {
 		PageBean<News> pageBean = new PageBean<News>();
 		//设置页数
 		pageBean.setPage(page);
-		//设置每一页可以显示的商品数
+		//设置每一页可以显示的新闻数
 		int limit = 10;
 		pageBean.setLimit(limit);
-		//设置具体的某一分类商品的总记录数
+		//设置具体的某一分类新闻的总记录数
 		int totalCount = newsDao.findAllCount();
 		pageBean.setTotalCount(totalCount);
 		//设置总页数
@@ -46,7 +46,7 @@ public class NewsServiceImpl implements INewsService {
 			totalPage = totalCount /limit + 1;
 		}
 		pageBean.setTotalPage(totalPage);
-		//设置具体页数的商品集合
+		//设置具体页数的新闻集合
 		int begin = (page - 1)*limit;
 		List<News> products = newsDao.findAllByPage(begin,limit);
 		pageBean.setList(products);
@@ -65,10 +65,10 @@ public class NewsServiceImpl implements INewsService {
 		PageBean<News> pageBean = new PageBean<News>();
 		//设置页数
 		pageBean.setPage(page);
-		//设置每一页可以显示的商品数
+		//设置每一页可以显示的新闻数
 		int limit = 10;
 		pageBean.setLimit(limit);
-		//设置具体的某一分类商品的总记录数
+		//设置具体的某一分类新闻的总记录数
 		int totalCount = newsDao.findTypeAllCount(classify);
 		pageBean.setTotalCount(totalCount);
 		//设置总页数
@@ -79,7 +79,7 @@ public class NewsServiceImpl implements INewsService {
 			totalPage = totalCount /limit + 1;
 		}
 		pageBean.setTotalPage(totalPage);
-		//设置具体页数的商品集合
+		//设置具体页数的新闻集合
 		int begin = (page - 1)*limit;
 		List<News> products = newsDao.findTypeAllByPage(begin,limit,classify);
 		pageBean.setList(products);
